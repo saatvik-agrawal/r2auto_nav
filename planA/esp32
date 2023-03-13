@@ -1,0 +1,31 @@
+from machine import Pin  
+
+#Set-up for IO pins based on our electronic architecture
+led = Pin(13, Pin.OUT)    # number in is Output
+push_button1 = Pin(2, Pin.IN)  # input as table 1
+push_button2 = Pin(0, Pin.IN)  # input as table 2
+push_button3 = Pin(4, Pin.IN)  # input as table 3
+push_button4 = Pin(16, Pin.IN)  # input as table 4
+push_button5 = Pin(17, Pin.IN)  # input as table 5
+push_button6 = Pin(5, Pin.IN)  # input as table 6
+
+while True:
+	table1_state = push_button1.value()
+	table2_state = push_button2.value()
+	table3_state = push_button3.value()
+	table4_state = push_button4.value()
+	table5_state = push_button5.value()
+	table6_state = push_button6.value()
+	if table1_state == True:
+		
+	elif table2_state == True:
+	
+	elif table3_state == True:
+	
+	elif table4_state == True:
+
+	elif table5_state == True:
+		
+	elif table6_state == True:
+		
+	else:
