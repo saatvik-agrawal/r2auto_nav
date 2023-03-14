@@ -1,0 +1,11 @@
+import RPi.GPIO as IO
+import time
+
+IO.setup(5,IO.IN) #GPIO 5 for Left IR
+IO.setup(6,IO.IN) #GPIO 6 for Right IR
+
+def IR_follow() {
+  follow = true;
+  
+  while (follow = true) {
+    if(IO.input(2)==True and IO.input(3)==True):
