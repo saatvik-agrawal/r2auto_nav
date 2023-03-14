@@ -6,6 +6,23 @@ IO.setup(6,IO.IN) #GPIO 6 for Right IR
 
 def IR_follow() {
   follow = true;
+  rotatechange = 0.1
+  speedchange = 0.05
   
-  while (follow = true) {
-    if(IO.input(2)==True and IO.input(3)==True):
+  while (follow = False):
+    if(IO.input(5)==True and IO.input(6)==True): #Front
+      twist.linear.x += speedchange
+      twist.angular.z = 0.0
+    elif (IO.input(5)==False and IO.input(6)==True): #Right (Clockwise)
+      twist.linear.x = 0.0
+      twist.angular.z -= rotatechange
+    elif (IO.input(5)==True and IO.input(6)==False): #Left (Counter-Clockwise)
+      twist.linear.x = 0.0
+      twist.angular.z += rotatechange
+    else: #Dont move
+      twist.linear.x = 0.0
+      twist.angular.z = 0.0
+      follow = False
+                
+  
+                    
