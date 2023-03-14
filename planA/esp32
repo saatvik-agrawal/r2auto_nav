@@ -19,28 +19,23 @@ def talker():
 	table5_state = push_button5.value()
 	table6_state = push_button6.value()
 	cancel_state = push_button7.value()
+	pub = rospy.Publisher('Payload', String, queue_size=10)
 	if table1_state == True:
-		pub = rospy.Publisher('Payload', String, queue_size=10)
+		
 		pub.publish("1")
 	elif table2_state == True:
-		pub = rospy.Publisher('Payload', std_msgs.msg.String, queue_size=10)
+		
 		pub.publish("2")
 	elif table3_state == True:
-		pub = rospy.Publisher('Payload', std_msgs.msg.String, queue_size=10)
 		pub.publish("3")
 	elif table4_state == True:
-		pub = rospy.Publisher('Payload', std_msgs.msg.String, queue_size=10)
 		pub.publish("4")
 	elif table5_state == True:
-		pub = rospy.Publisher('Payload', std_msgs.msg.String, queue_size=10)
 		pub.publish("5")
 	elif table6_state == True:
-		pub = rospy.Publisher('Payload', std_msgs.msg.String, queue_size=10)
 		pub.publish("6")
 	elif cancel_state == True:
-		pub = rospy.Publisher('Payload', std_msgs.msg.String, queue_size=10)
 		pub.publish("Cancel")
-	else:
 
 if __name__ == '__main__':
 	try:
