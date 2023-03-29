@@ -1,24 +1,36 @@
 import RPi.GPIO as IO
 import time
 
-IO.setup(5,IO.IN) #GPIO 5 for Left IR
-IO.setup(6,IO.IN) #GPIO 6 for Right IR
+L=5
+R=6
+IO.setup(L,IO.IN) #GPIO L for Left IR
+IO.setup(R,IO.IN) #GPIO R for Right IR
 
 def IR_follow() {
-  follow = true;
+  follow = True
+  extreme = True
   rotatechange = 0.1
   speedchange = 0.05
   
-  while (follow = False):
-    if(IO.input(5)==True and IO.input(6)==True): #Front
-      twist.linear.x += speedchange
+  while (follow = True):
+    if(IO.input(L)==1 and IO.input(R)==1): #Front
+      twist.linear.x = speedchange
       twist.angular.z = 0.0
-    elif (IO.input(5)==False and IO.input(6)==True): #Right (Clockwise)
+      if (extreme == True and IO.input(L)!=1 and IO.input(R)!=1): #extreme case where bot is perpendicular, run once
+        while (IO.input(L)!=1 and IO.input(R)!=1):
+          twist.linear.x = 0.05
+          time.sleep(0.1)
+          twist.linear.x = 0.0
+          twist.angular.z = 0.1
+          time.sleep(0.1)
+          twist.angular.z = 0.0
+        extreme = False
+    elif (IO.input(L)==1 and IO.input(R)!=1): #Right (Clockwise)
       twist.linear.x = 0.0
-      twist.angular.z -= rotatechange
-    elif (IO.input(5)==True and IO.input(6)==False): #Left (Counter-Clockwise)
+      twist.angular.z = -rotatechange
+    elif (IO.input(L)!=1 and IO.input(R)==1): #Left (Counter-Clockwise)
       twist.linear.x = 0.0
-      twist.angular.z += rotatechange
+      twist.angular.z = rotatechange
     else: #Dont move
       twist.linear.x = 0.0
       twist.angular.z = 0.0
