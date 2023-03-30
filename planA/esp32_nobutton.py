@@ -1,21 +1,37 @@
-import rospy
+import paho.mqtt.client as mqtt
+import time
 
-#Set-up for IO pins based on our electronic architecture
-push_button1 = "1"  # input as table 1
-push_button2 = "2"  # input as table 2
-push_button3 = "3"  # input as table 3
-push_button4 = "4"  # input as table 4
-push_button5 = "5"  # input as table 5
-push_button6 = "6" # input as table 6
-push_buttoncancel = "c"  # input as cancelOrder
+MQTT_BROKER = '192.168.128.219'
+MQTT_TOPIC = b"user"
 
-def talker():
-  command = input("Which table?\n");
-	pub = rospy.Publisher('Payload', String, queue_size=10)
-	pub.publish(command)
+def reset():
+    print("Resetting...")
+    time.sleep(5)
+    machine.reset()
 
-if __name__ == '__main__':
-	try:
-		talker()
-	except rospy.ROSInterruptException:
-		pass
+def on_publish(client, userdata, mid):
+    print("sent a message")
+
+
+mqttClient = mqtt.Client("Broker")
+mqttClient.on_publish = on_publish
+mqttClient.connect(MQTT_BROKER, 1883)
+# start a new thread
+mqttClient.loop_start()
+
+# Why use msg.encode('utf-8') here
+# MQTT is a binary based protocol where the control elements are binary bytes and not text strings.
+# Topic names, Client ID, Usernames and Passwords are encoded as stream of bytes using UTF-8.
+while True:
+    Table = input("Enter table number: ")
+    info = mqttClient.publish(
+        topic=b"user",
+        payload=Table.encode('utf-8'),
+        qos=0,
+    )
+    # Because published() is not synchronous,
+    # it returns false while he is not aware of delivery that's why calling wait_for_publish() is mandatory.
+    info.wait_for_publish()
+    print(info.is_published())
+    time.sleep(3)
+    
