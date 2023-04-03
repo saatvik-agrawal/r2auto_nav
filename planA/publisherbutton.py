@@ -9,7 +9,7 @@ CLIENT_ID = ubinascii.hexlify(machine.unique_id())
 user = "roger"
 password = "password"
 MQTT_TOPIC = "client"
-Table = 0
+Table = []
 
 # GPIO ports for the 7seg pins
 segments =  (13,12,14,27,26,25,33)
@@ -40,9 +40,12 @@ num = {' ':(0,0,0,0,0,0,0),
     '6':(1,0,1,1,1,1,1),
     'C':(0,1,1,1,0,0,1),}
 
-
 def reset():
 	print("Resetting...")
+	for loop in range(0,7):
+		led_pwm = PWM(segments[loop].value(num[' '][loop]), 5000)
+		led_pwm.duty(Table)
+		time.sleep(0.001)
 	time.sleep(5)
 	machine.reset()
 
@@ -55,26 +58,31 @@ def talker():
 	table6_state = push_button6.value()
 	cancel_state = push_button7.value()
 	if table1_state == True:
-		return 1
+		display('1')
+		return Table + [1]
 	elif table2_state == True:
-		return 2
+		display('2')
+		return Table + [2]
 	elif table3_state == True:
-		return 3
+		display('3')
+		return Table + [3]
 	elif table4_state == True:
-		return 4
+		display('4')
+		return Table + [4]
 	elif table5_state == True:
-		return 5
+		display('5')
+		return Table + [5]
 	elif table6_state == True:
-		return 6
+		display('6')
+		return Table + [6]
 	elif cancel_state == True:
-		return 0
+		display('C')
+		return Table[:-1]
 
-def display(Table):
+def display(n):
 	for loop in range(0,7):
-		if Table == 0:
-			Table = 'C'
-		led_pwm = PWM(segments[loop].value(num[Table][loop]), 5000)
-		led_pwm.duty(Table)
+		segments[loop].value(num[n][loop])
+		led_pwm.duty(n)
 		time.sleep(0.001)
     
 def main():    
