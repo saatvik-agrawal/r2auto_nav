@@ -4,25 +4,17 @@ import machine
 from umqtt.simple import MQTTClient
 from machine import Pin
 
-MQTT_BROKER = '192.168.128.219'
-CLIENT_ID = ubinascii.hexlify(machine.unique_id())
-user = "roger"
-password = "password"
-MQTT_TOPIC = "client"
-Table = []
-
-# GPIO ports for the 7seg pins
-segments =  (led_A,led_B,led_C,led_D,led_E,led_F,led_G)
 
 #Set-up for IO pins based on our electronic architecture
-led_A = Pin(13, Pin.OUT)    # number in is Output
-led_B = Pin(12, Pin.OUT)    # number in is Output
-led_C = Pin(14, Pin.OUT)    # number in is Output
-led_D = Pin(27, Pin.OUT)    # number in is Output
-led_E = Pin(26, Pin.OUT)    # number in is Output
-led_F = Pin(25, Pin.OUT)    # number in is Output
-led_G = Pin(33, Pin.OUT)    # number in is Output
-led_DP = Pin(32, Pin.OUT)    # number in is Output
+led_A = Pin(13, Pin.OUT, value=0)    # Segment A to pin 13
+led_B = Pin(12, Pin.OUT, value=0)    # Segment B to pin 12
+led_C = Pin(14, Pin.OUT, value=0)    # Segment C to pin 14
+led_D = Pin(27, Pin.OUT, value=0)    # Segment D to pin 27
+led_E = Pin(26, Pin.OUT, value=0)    # Segment E to pin 26
+led_F = Pin(25, Pin.OUT, value=0)    # Segment F to pin 25
+led_G = Pin(33, Pin.OUT, value=0)    # Segment G to pin 33
+led_DP = Pin(32, Pin.OUT, value=0)    # Segment DP to pin 32
+
 push_button1 = Pin(22, Pin.IN)  # input as table 1
 push_button2 = Pin(1, Pin.IN)  # input as table 2
 push_button3 = Pin(3, Pin.IN)  # input as table 3
@@ -31,14 +23,23 @@ push_button5 = Pin(19, Pin.IN)  # input as table 5
 push_button6 = Pin(18, Pin.IN)  # input as table 6
 push_button7 = Pin(5, Pin.IN)  # input as cancelOrder
 
+MQTT_BROKER = '192.168.128.219'
+CLIENT_ID = ubinascii.hexlify(machine.unique_id())
+user = "roger"
+password = "password"
+MQTT_TOPIC = "client"
+
+# GPIO ports for the 7seg pins
+segments =  [led_A,led_B,led_C,led_D,led_E,led_F,led_G]
+
 num = {' ':[0,0,0,0,0,0,0],
-    '1':[0,1,1,0,0,0,0],
+    '1':[0,0,0,0,1,1,0],
     '2':[1,1,0,1,1,0,1],
-    '3':[1,1,1,1,0,0,1],
-    '4':[0,1,1,0,0,1,1],
+    '3':[1,0,0,1,1,1,1],
+    '4':[0,0,1,0,1,1,1],
     '5':[1,0,1,1,0,1,1],
-    '6':[1,0,1,1,1,1,1],
-    'C':[0,1,1,1,0,0,1]}
+    '6':[1,1,1,1,0,1,1],
+    'C':[0,0,0,1,1,1,1]}
 
 def reset():
 	print("Resetting...")
@@ -54,6 +55,7 @@ def display(n):
 		time.sleep(0.001)
 	
 def talker():
+	Table = []
 	table1_state = push_button1.value()
 	table2_state = push_button2.value()
 	table3_state = push_button3.value()
@@ -81,31 +83,26 @@ def talker():
 		return Table + [6]
 	elif cancel_state == True:
 		display('C')
-		return Table[:-1]
-  
+		return Table[:-1] 
+
 def main():
 	time.sleep(1)
 	print(f"client {CLIENT_ID} to mqtt broker: {MQTT_BROKER}\n")
-	mqttClient = MQTTClient(CLIENT_ID, server=MQTT_BROKER, user=user, password=password, keepalive=60)
+	mqttClient = MQTTClient(CLIENT_ID, 
+			    server=MQTT_BROKER, 
+			    user=user, 
+			    password=password, 
+			    keepalive=60)
 	mqttClient.connect()
-	mqttclient.loop_start() #start loop to process received messages
-	
-	Table = talker()
+	print("Connected to %s, waiting for button presses" % server)
 
-	if (Table[-1] > 0):
-		
+	while True:
+		Table = talker()
 		print(f"Publishing Table number :: {Table[-1]}")
-		mqttClient.publish(TOPIC, str(Table[-1]).encode())
-		time.sleep(3)
-
-	#change this to sense if "no can"
-	time.sleep(1000)
-	mqttclient.loop_stop() #stop loop
-	mqttclient.disconnect() #disconnect
+		mqttClient.publish(MQTT_TOPIC, str(Table[-1]).encode())
+		time.sleep(3))
+	mqttclient.disconnect() #disconnect	
 	
-	
-	
-
     
 if __name__ == "__main__":
 	try:
