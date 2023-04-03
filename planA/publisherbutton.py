@@ -11,6 +11,9 @@ password = "password"
 MQTT_TOPIC = "client"
 Table = 0
 
+# GPIO ports for the 7seg pins
+segments =  (13,12,14,27,26,25,33,32)
+
 #Set-up for IO pins based on our electronic architecture
 led_A = Pin(13, Pin.OUT)    # number in is Output
 led_B = Pin(12, Pin.OUT)    # number in is Output
@@ -18,7 +21,7 @@ led_C = Pin(14, Pin.OUT)    # number in is Output
 led_D = Pin(27, Pin.OUT)    # number in is Output
 led_E = Pin(26, Pin.OUT)    # number in is Output
 led_F = Pin(25, Pin.OUT)    # number in is Output
-led_G = Pin(32, Pin.OUT)    # number in is Output
+led_G = Pin(33, Pin.OUT)    # number in is Output
 led_DP = Pin(32, Pin.OUT)    # number in is Output
 push_button1 = Pin(22, Pin.IN)  # input as table 1
 push_button2 = Pin(1, Pin.IN)  # input as table 2
@@ -39,9 +42,9 @@ num = {' ':(0,0,0,0,0,0,0),
 
 
 def reset():
-    print("Resetting...")
-    time.sleep(5)
-    machine.reset()
+	print("Resetting...")
+	time.sleep(5)
+	machine.reset()
 
 def talker():
 	table1_state = push_button1.value()
@@ -67,17 +70,15 @@ def talker():
 		return 0
 
 def display(Table):
-    for loop in range(0,7):
-            led_pwm = PWM(Pin(13), 5000)
-            led_pwm.duty(Table)
-            time.sleep(0.001)
-
+	for loop in range(0,7):
+		led_pwm = PWM(segments[loop].value(num[Table][loop]), 5000)
+		led_pwm.duty(Table)
+		time.sleep(0.001)
     
 def main():    
-    print(f"client {CLIENT_ID} to mqtt broker: {MQTT_BROKER}\n")
-    mqttClient = MQTTClient(CLIENT_ID, server=MQTT_BROKER, user=user, password=password, keepalive=60)
-    mqttClient.connect()
-    
+	print(f"client {CLIENT_ID} to mqtt broker: {MQTT_BROKER}\n")
+	mqttClient = MQTTClient(CLIENT_ID, server=MQTT_BROKER, user=user, password=password, keepalive=60)
+	mqttClient.connect()
     while True:
         Table = talker()
         display(Table)
@@ -85,7 +86,7 @@ def main():
         	print(f"Publishing Table number :: {Table}")
         	mqttClient.publish(TOPIC, str(Table).encode())
         	time.sleep(3)
-    mqttClient.disconnect()
+		mqttClient.disconnect()
     
 if __name__ == "__main__":
     try:
