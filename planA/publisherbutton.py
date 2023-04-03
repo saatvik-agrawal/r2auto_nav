@@ -49,6 +49,12 @@ def reset():
 	time.sleep(5)
 	machine.reset()
 
+def display(n):
+	for loop in range(0,7):
+		segments[loop].value(num[n][loop])
+		led_pwm.duty(n)
+		time.sleep(0.001)
+	
 def talker():
 	table1_state = push_button1.value()
 	table2_state = push_button2.value()
@@ -79,11 +85,6 @@ def talker():
 		display('C')
 		return Table[:-1]
 
-def display(n):
-	for loop in range(0,7):
-		segments[loop].value(num[n][loop])
-		led_pwm.duty(n)
-		time.sleep(0.001)
     
 def main():    
 	print(f"client {CLIENT_ID} to mqtt broker: {MQTT_BROKER}\n")
