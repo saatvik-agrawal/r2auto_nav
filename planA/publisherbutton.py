@@ -71,6 +71,8 @@ def talker():
 
 def display(Table):
 	for loop in range(0,7):
+		if Table == 0:
+			Table = 'C'
 		led_pwm = PWM(segments[loop].value(num[Table][loop]), 5000)
 		led_pwm.duty(Table)
 		time.sleep(0.001)
