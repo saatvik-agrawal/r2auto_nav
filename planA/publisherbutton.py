@@ -2,7 +2,7 @@ import time
 import ubinascii
 import machine
 from umqtt.simple import MQTTClient
-from machine import Pin, PWM
+from machine import Pin
 
 MQTT_BROKER = '192.168.128.219'
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
@@ -12,7 +12,7 @@ MQTT_TOPIC = "client"
 Table = []
 
 # GPIO ports for the 7seg pins
-segments =  (13,12,14,27,26,25,33)
+segments =  (led_A,led_B,led_C,led_D,led_E,led_F,led_G)
 
 #Set-up for IO pins based on our electronic architecture
 led_A = Pin(13, Pin.OUT)    # number in is Output
@@ -31,20 +31,19 @@ push_button5 = Pin(19, Pin.IN)  # input as table 5
 push_button6 = Pin(18, Pin.IN)  # input as table 6
 push_button7 = Pin(5, Pin.IN)  # input as cancelOrder
 
-num = {' ':(0,0,0,0,0,0,0),
-    '1':(0,1,1,0,0,0,0),
-    '2':(1,1,0,1,1,0,1),
-    '3':(1,1,1,1,0,0,1),
-    '4':(0,1,1,0,0,1,1),
-    '5':(1,0,1,1,0,1,1),
-    '6':(1,0,1,1,1,1,1),
-    'C':(0,1,1,1,0,0,1),}
+num = {' ':[0,0,0,0,0,0,0],
+    '1':[0,1,1,0,0,0,0],
+    '2':[1,1,0,1,1,0,1],
+    '3':[1,1,1,1,0,0,1],
+    '4':[0,1,1,0,0,1,1],
+    '5':[1,0,1,1,0,1,1],
+    '6':[1,0,1,1,1,1,1],
+    'C':[0,1,1,1,0,0,1]}
 
 def reset():
 	print("Resetting...")
 	for loop in range(0,7):
-		led_pwm = PWM(segments[loop].value(num[' '][loop]), 5000)
-		led_pwm.duty(Table)
+		segments[loop].value(num[' '][loop])
 		time.sleep(0.001)
 	time.sleep(5)
 	machine.reset()
@@ -52,7 +51,6 @@ def reset():
 def display(n):
 	for loop in range(0,7):
 		segments[loop].value(num[n][loop])
-		led_pwm.duty(n)
 		time.sleep(0.001)
 	
 def talker():
@@ -93,13 +91,13 @@ def main():
 	mqttclient.loop_start() #start loop to process received messages
 	
 	Table = talker()
-	'''
+
 	if (Table[-1] > 0):
 		
 		print(f"Publishing Table number :: {Table[-1]}")
 		mqttClient.publish(TOPIC, str(Table[-1]).encode())
 		time.sleep(3)
-		'''
+
 	#change this to sense if "no can"
 	time.sleep(1000)
 	mqttclient.loop_stop() #stop loop
