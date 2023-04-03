@@ -12,7 +12,7 @@ MQTT_TOPIC = "client"
 Table = 0
 
 # GPIO ports for the 7seg pins
-segments =  (13,12,14,27,26,25,33,32)
+segments =  (13,12,14,27,26,25,33)
 
 #Set-up for IO pins based on our electronic architecture
 led_A = Pin(13, Pin.OUT)    # number in is Output
