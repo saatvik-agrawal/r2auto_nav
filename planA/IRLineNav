@@ -28,9 +28,11 @@ def IR_follow() {
     elif (IO.input(L)==1 and IO.input(R)!=1): #Right (Clockwise)
       twist.linear.x = 0.0
       twist.angular.z = -rotatechange
+      extreme = False
     elif (IO.input(L)!=1 and IO.input(R)==1): #Left (Counter-Clockwise)
       twist.linear.x = 0.0
       twist.angular.z = rotatechange
+      extreme = False
     else: #Dont move
       twist.linear.x = 0.0
       twist.angular.z = 0.0
