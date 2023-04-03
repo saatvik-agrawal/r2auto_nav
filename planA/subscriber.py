@@ -9,20 +9,36 @@ user = "roger"
 password = "password"
 MQTT_TOPIC = b"user"
 
+#Set IO Pin config
+sg90 = PWM(Pin(32, mode=Pin.OUT))
+sg90.freq(50)
+
+# 0.5ms/20ms = 0.025 = 2.5% duty cycle
+# 2.4ms/20ms = 0.12 = 12% duty cycle
+
+# 0.025*1024=25.6
+# 0.12*1024=122.88
+
 def sub_cb(topic, msg):
     print((topic, msg))
-
+    while True:
+        sg90.duty(15)
+        time.sleep(1)
+        sg90.duty(30)
+        time.sleep(1)
+        #does it return back to position?
 
 def reset():
     print("Resetting...")
     time.sleep(5)
     machine.reset()
 
+
 def main():
     mqttClient = MQTTClient(CLIENT_ID, server=MQTT_BROKER, user=user, password=password, keepalive=60)
     mqttClient.set_callback(sub_cb)
     mqttClient.connect()
-    mqttClient.subscribe(TOPIC)
+    mqttClient.subscribe(MQTT_TOPIC)
     print(f"Connected to MQTT  Broker :: {MQTT_BROKER}, and waiting for callback function to be called!")
     while True:
         if False:
