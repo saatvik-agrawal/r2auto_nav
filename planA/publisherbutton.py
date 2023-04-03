@@ -100,7 +100,7 @@ def main():
 		Table = talker()
 		print(f"Publishing Table number :: {Table[-1]}")
 		mqttClient.publish(MQTT_TOPIC, str(Table[-1]).encode())
-		time.sleep(3))
+		time.sleep_ms(200)
 	mqttclient.disconnect() #disconnect	
 	
     
