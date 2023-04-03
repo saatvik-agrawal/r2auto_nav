@@ -84,24 +84,34 @@ def talker():
 	elif cancel_state == True:
 		display('C')
 		return Table[:-1]
-
-    
-def main():    
+  
+def main():
+	time.sleep(1)
 	print(f"client {CLIENT_ID} to mqtt broker: {MQTT_BROKER}\n")
 	mqttClient = MQTTClient(CLIENT_ID, server=MQTT_BROKER, user=user, password=password, keepalive=60)
 	mqttClient.connect()
-    while True:
-        Table = talker()
-        display(Table)
-        if (Table > 0):
-        	print(f"Publishing Table number :: {Table}")
-        	mqttClient.publish(TOPIC, str(Table).encode())
-        	time.sleep(3)
-		mqttClient.disconnect()
+	mqttclient.loop_start() #start loop to process received messages
+	
+	Table = talker()
+	'''
+	if (Table[-1] > 0):
+		
+		print(f"Publishing Table number :: {Table[-1]}")
+		mqttClient.publish(TOPIC, str(Table[-1]).encode())
+		time.sleep(3)
+		'''
+	#change this to sense if "no can"
+	time.sleep(1000)
+	mqttclient.loop_stop() #stop loop
+	mqttclient.disconnect() #disconnect
+	
+	
+	
+
     
 if __name__ == "__main__":
-    try:
-        main()
-    except OSError as e:
-        print("Error: " + str(e))
-        reset()
+	try:
+		main()
+	except OSError as e:
+		print("Error: " + str(e))
+		reset()
