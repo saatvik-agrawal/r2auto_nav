@@ -12,14 +12,21 @@ MQTT_TOPIC = "client"
 Table = 0
 
 #Set-up for IO pins based on our electronic architecture
-led = Pin(13, Pin.OUT)    # number in is Output
-push_button1 = Pin(2, Pin.IN)  # input as table 1
-push_button2 = Pin(0, Pin.IN)  # input as table 2
-push_button3 = Pin(4, Pin.IN)  # input as table 3
-push_button4 = Pin(16, Pin.IN)  # input as table 4
-push_button5 = Pin(17, Pin.IN)  # input as table 5
-push_button6 = Pin(5, Pin.IN)  # input as table 6
-push_button7 = Pin(18, Pin.IN)  # input as cancelOrder
+led_A = Pin(13, Pin.OUT)    # number in is Output
+led_B = Pin(12, Pin.OUT)    # number in is Output
+led_C = Pin(14, Pin.OUT)    # number in is Output
+led_D = Pin(27, Pin.OUT)    # number in is Output
+led_E = Pin(26, Pin.OUT)    # number in is Output
+led_F = Pin(25, Pin.OUT)    # number in is Output
+led_G = Pin(32, Pin.OUT)    # number in is Output
+led_DP = Pin(32, Pin.OUT)    # number in is Output
+push_button1 = Pin(22, Pin.IN)  # input as table 1
+push_button2 = Pin(1, Pin.IN)  # input as table 2
+push_button3 = Pin(3, Pin.IN)  # input as table 3
+push_button4 = Pin(21, Pin.IN)  # input as table 4
+push_button5 = Pin(19, Pin.IN)  # input as table 5
+push_button6 = Pin(18, Pin.IN)  # input as table 6
+push_button7 = Pin(5, Pin.IN)  # input as cancelOrder
 
 num = {' ':(0,0,0,0,0,0,0),
     '1':(0,1,1,0,0,0,0),
