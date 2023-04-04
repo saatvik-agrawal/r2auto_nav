@@ -3,7 +3,9 @@ import network, utime, machine
 
 # Replace the following with your WIFI Credentials
 SSID = "SINGTEL-T44F"
+#Remember to change this to the wifiID you are using
 SSID_PASSWORD = "dn5tw5k6tk"
+#Remember to change this to the wifiPassword you are using
 
 
 def do_connect():
