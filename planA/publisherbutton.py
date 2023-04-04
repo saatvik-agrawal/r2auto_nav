@@ -24,9 +24,12 @@ push_button6 = Pin(18, Pin.IN)  # input as table 6
 push_button7 = Pin(5, Pin.IN)  # input as cancelOrder
 
 MQTT_BROKER = '192.168.128.219'
+#remember to change this to your laptop IP Address
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
 user = "roger"
+#remember to change this to user in your passwordfile
 password = "password"
+#remember to change this to password in your passwordfile
 MQTT_TOPIC = "client"
 
 # GPIO ports for the 7seg pins
