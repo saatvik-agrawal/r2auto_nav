@@ -3,10 +3,13 @@ import ubinascii
 import machine
 from umqtt.simple import MQTTClient
 
-MQTT_BROKER = '192.168.1.124'
+MQTT_BROKER = '192.168.128.219'
+#remember to change this to your laptop IP Address
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
 user = "roger"
+#remember to change this to user in your passwordfile
 password = "password"
+#remember to change this to password in your passwordfile
 MQTT_TOPIC = "client"
 
 def reset():
