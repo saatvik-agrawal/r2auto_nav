@@ -3,7 +3,7 @@ import ubinascii
 import machine
 from umqtt.simple import MQTTClient
 
-#MQTT topic is called "TableNo"
+#MQTT topic is called "TableNo, pins are updated, need to double confirm mqtt settings"
 
 MQTT_BROKER = '192.168.128.219'
 #remember to change this to your laptop IP Address
