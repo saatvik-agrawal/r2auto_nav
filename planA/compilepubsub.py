@@ -32,13 +32,14 @@ push_button2 = Pin(22, Pin.IN, Pin.PULL_UP)  # input as table 2
 push_button3 = Pin(21, Pin.IN, Pin.PULL_UP)  # input as table 3
 push_button4 = Pin(19, Pin.IN, Pin.PULL_UP)  # input as table 4
 push_button5 = Pin(18, Pin.IN, Pin.PULL_UP)  # input as table 5
-push_button6 = Pin(5, Pin.IN, Pin.PULL_UP)  # input as table 6
-push_button7 = Pin(4, Pin.IN, Pin.PULL_UP)  # input as confirmOrder
+push_button6 = Pin(4, Pin.IN, Pin.PULL_UP)  # input as table 6
+#push_button7 = Pin(4, Pin.IN, Pin.PULL_UP)  # input as confirmOrder
 
-table = -1 #-1 means no table assigned or cancelled
+table = 0 #0 means no table assigned
+#confirm = 0 #0 means tabe number is not confirmed
 
 led_A = Pin(13, Pin.OUT)    # number in is Output
-led_B = Pin(2, Pin.OUT)    # number in is Output
+led_B = Pin(15, Pin.OUT)    # number in is Output
 led_C = Pin(14, Pin.OUT)    # number in is Output
 led_D = Pin(27, Pin.OUT)    # number in is Output
 led_E = Pin(26, Pin.OUT)    # number in is Output
@@ -53,11 +54,10 @@ num = {' ':[0,0,0,0,0,0,0],
     '3':[1,0,0,1,1,1,1],
     '4':[0,0,1,0,1,1,1],
     '5':[1,0,1,1,0,1,1],
-    '6':[1,1,1,1,0,1,1],
-    'C':[1,0,1,1,0,0,0]}
+    '6':[1,1,1,1,0,1,1]}
 
 #Ultrasonic sensor setup
-sensor = HCSR04(trigger_pin=15, echo_pin=12, echo_timeout_us=10000)
+sensor = HCSR04(trigger_pin=12, echo_pin=34, echo_timeout_us=10000)
 #trigger_pin = Pin(15, Pin.OUT)
 #echo_pin = Pin(12, Pin.IN)
        
@@ -75,29 +75,37 @@ def display(n):
         print(loop)
         time.sleep(0.2)
     #time.sleep(3)
-    print(n)
+    table = int(n)
+    print(table)
 
 def buttons():
     if not push_button1.value():
+        #table = 1
         display('1')
-        table = 1
+        
+        
     elif not push_button2.value():
         display('2')
-        table = 2
+        #table = 2
+        
     elif not push_button3.value():
         display('3')
-        table = 3
+        #table = 3
+        
     elif not push_button4.value():
         display('4')
-        table = 4
+        #table = 4
+        
     elif not push_button5.value():
         display('5')
-        table = 5
+        #table = 5
+        
     elif not push_button6.value():
         display('6')
-        table = 6
-    elif not push_button7.value():
-        display('C')
+        #table = 6
+        
+    #elif not push_button7.value():
+        #display('C')
         #table = -1
         
 def ultrasonic_distance(): #read distance for servo, locally done
@@ -118,14 +126,11 @@ def main():
     
     while True:
         buttons()
-        while table >= 0:
-            if not push_button7.value():
-              print(f"Publishing Table number :: {table}")
-              mqttClient.publish(TOPIC, str(table).encode())
-              table = -1
-            
+        while table > 0:
+            print(f"Publishing Table number :: {table}")
+            #mqttClient.publish(TOPIC, str(table).encode())
         dist = ultrasonic_distance()
-        if dist <= 2:
+        if dist <= 5:
             print("Ready for can")
             time.sleep(2)
             sg90.duty(30)
