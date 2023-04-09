@@ -49,12 +49,12 @@ led_G = Pin(33, Pin.OUT)    # number in is Output
 segments =  [led_A,led_B,led_C,led_D,led_E,led_F,led_G]
 
 num = {' ':[0,0,0,0,0,0,0],
-    '1':[0,0,0,0,1,1,0],
-    '2':[1,0,0,1,1,0,1],
-    '3':[1,0,0,1,1,1,1],
-    '4':[0,0,1,0,1,1,1],
+    '1':[0,1,1,0,0,0,0],
+    '2':[1,1,0,1,1,0,1],
+    '3':[1,1,1,1,0,0,1],
+    '4':[0,1,1,0,0,1,1],
     '5':[1,0,1,1,0,1,1],
-    '6':[1,1,1,1,0,1,1]}
+    '6':[1,0,1,1,1,1,1]}
 
 #Ultrasonic sensor setup
 sensor = HCSR04(trigger_pin=12, echo_pin=34, echo_timeout_us=10000)
@@ -72,8 +72,7 @@ def display(n):
     print("in display")
     for loop in range(0,7):
         segments[loop].value(num[n][loop])
-        print(loop)
-        time.sleep(0.2)
+        time.sleep(0.01)
     #time.sleep(3)
 
 def buttons():
@@ -148,9 +147,9 @@ def main():
             display('6')
             table = 6
         
-        if table > 0:
+        while table > 0:
             print(f"Publishing Table number :: {table}")
-            #mqttClient.publish(TOPIC, str(table).encode())
+            mqttClient.publish(TOPIC, str(table).encode())
             
         dist = ultrasonic_distance()
         if dist <= 5:
