@@ -75,34 +75,32 @@ def display(n):
         print(loop)
         time.sleep(0.2)
     #time.sleep(3)
-    table = int(n)
-    print(table)
 
 def buttons():
     if not push_button1.value():
-        #table = 1
+        table = 1
         display('1')
         
         
     elif not push_button2.value():
         display('2')
-        #table = 2
+        table = 2
         
     elif not push_button3.value():
         display('3')
-        #table = 3
+        table = 3
         
     elif not push_button4.value():
         display('4')
-        #table = 4
+        table = 4
         
     elif not push_button5.value():
         display('5')
-        #table = 5
+        table = 5
         
     elif not push_button6.value():
         display('6')
-        #table = 6
+        table = 6
         
     #elif not push_button7.value():
         #display('C')
@@ -125,10 +123,35 @@ def main():
     print(f"client {CLIENT_ID} to mqtt broker: {MQTT_BROKER}\n")
     
     while True:
-        buttons()
-        while table > 0:
+        table = 0
+        if not push_button1.value():
+            table = 1
+            display('1')
+        
+        elif not push_button2.value():
+            display('2')
+            table = 2
+            
+        elif not push_button3.value():
+            display('3')
+            table = 3
+            
+        elif not push_button4.value():
+            display('4')
+            table = 4
+            
+        elif not push_button5.value():
+            display('5')
+            table = 5
+            
+        elif not push_button6.value():
+            display('6')
+            table = 6
+        
+        if table > 0:
             print(f"Publishing Table number :: {table}")
             #mqttClient.publish(TOPIC, str(table).encode())
+            
         dist = ultrasonic_distance()
         if dist <= 5:
             print("Ready for can")
