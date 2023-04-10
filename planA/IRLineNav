@@ -28,15 +28,15 @@ class Docker(Node):
 
   def canstatus(self):
     msg = Bool()
-    if IO.inpot(L) == 1:
+    if IO.input(cansensor) == 1:
       msg.data = True
     else:
        msg.data = False
-    self.canstatus.publish(msg)
+    self.canstate.publish(msg)
 
   def IR_follow(self)
     twist = Twist()
-    follow = self.following
+    follow = True
     while (follow = True):
       if(IO.input(L)==1 and IO.input(R)==1): #Front
         twist.linear.x = speedchange
@@ -52,7 +52,7 @@ class Docker(Node):
             twist.linear.x = 0.0
             twist.angular.z = 0.1
             self.mover.publish(twist)
-            time.sleep(0.1)
+            time.sleep(0.4)
             twist.angular.z = 0.0
             self.mover.publish(twist)
           extreme = False
