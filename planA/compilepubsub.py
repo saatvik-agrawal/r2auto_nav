@@ -8,7 +8,7 @@ from hcsr04 import HCSR04
 
 #MQTT topic is called "TableNo"
 
-MQTT_BROKER = '192.168.102.219'
+MQTT_BROKER = '192.168.1.102'
 #Jae Geun
 #MQTT_BROKER = '10.249.194.175'
 #Devinaa Kumeresh
@@ -35,7 +35,8 @@ push_button5 = Pin(18, Pin.IN, Pin.PULL_UP)  # input as table 5
 push_button6 = Pin(4, Pin.IN, Pin.PULL_UP)  # input as table 6
 #push_button7 = Pin(4, Pin.IN, Pin.PULL_UP)  # input as confirmOrder
 
-table = 0 #0 means no table assigned
+table = 0
+current_table = 0 #0 means no table assigned
 #confirm = 0 #0 means tabe number is not confirmed
 
 led_A = Pin(13, Pin.OUT)    # number in is Output
@@ -123,9 +124,10 @@ def main():
     
     while True:
         table = 0
+        current_table = 0
         if not push_button1.value():
-            table = 1
             display('1')
+            table = 1
         
         elif not push_button2.value():
             display('2')
@@ -149,16 +151,20 @@ def main():
         
         while table > 0:
             print(f"Publishing Table number :: {table}")
-            mqttClient.publish(TOPIC, str(table).encode())
+            mqttClient.publish(MQTT_TOPIC, str(table).encode())
+            if current_table != table:
+                break
             
         dist = ultrasonic_distance()
-        if dist <= 5:
-            print("Ready for can")
-            time.sleep(2)
-            sg90.duty(30)
-            time.sleep(5)
+        print(dist)
+        #if dist <= 4 and dist > 0:
+        #    print("bot detected")
+         #   time.sleep(2)
+          #  sg90.duty(30)
+           # time.sleep(5)
         #print("Not Ready")
         sg90.duty(15)
+        time.sleep(1)
 
     
 if __name__ == "__main__":
