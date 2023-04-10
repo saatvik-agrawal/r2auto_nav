@@ -3,11 +3,11 @@ import ubinascii
 import machine
 from umqtt.simple import MQTTClient
 
-MQTT_BROKER = '192.168.1.124'
+MQTT_BROKER = '192.168.1.102'
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
 user = "roger"
 password = "password"
-MQTT_TOPIC = "client"
+MQTT_TOPIC = "TableNo"
 
 def reset():
     print("Resetting...")
@@ -23,7 +23,7 @@ def main():
     while True:
         Table = input("Enter table number: ")
         print(f"Publishing Table number :: {Table}")
-        mqttClient.publish(TOPIC, str(Table).encode())
+        mqttClient.publish(MQTT_TOPIC, str(Table).encode())
         time.sleep(3)
     mqttClient.disconnect()
     
