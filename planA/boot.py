@@ -1,10 +1,19 @@
+# This file is executed on every boot (including wake-boot from deepsleep)
+#import esp
+#esp.osdebug(None)
+#import webrepl
+#webrepl.start()
 # boot.py -- run on boot-up
 import network, utime, machine
 
 # Replace the following with your WIFI Credentials
-SSID = "SINGTEL-T44F"
+
+SSID = "eg2310_Gp6"
+SSID_PASSWORD = "eg2310router"
+#JG Hotspot
+#SSID = "Jg"
 #Remember to change this to the wifiID you are using
-SSID_PASSWORD = "dn5tw5k6tk"
+#SSID_PASSWORD = "jgbest11"
 #Remember to change this to the wifiPassword you are using
 
 
