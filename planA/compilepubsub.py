@@ -157,14 +157,14 @@ def main():
             
         dist = ultrasonic_distance()
         print(dist)
-        #if dist <= 4 and dist > 0:
-        #    print("bot detected")
-         #   time.sleep(2)
-          #  sg90.duty(30)
-           # time.sleep(5)
-        #print("Not Ready")
+        if dist <= 4 and dist > 0:
+            print("bot detected")
+            time.sleep(2)
+            sg90.duty(30)
+            time.sleep(5)
+        print("Not Ready")
         sg90.duty(15)
-        time.sleep(1)
+        time.sleep(3)
 
     
 if __name__ == "__main__":
