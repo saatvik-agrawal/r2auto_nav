@@ -34,8 +34,8 @@ class Docker(Node):
   def IRPublish(self):
     leftmsg = Int16()
     rightmsg = Int16()
-    leftmsg = GPIO.input(L)
-    rightmsg = GPIO.input(R)
+    leftmsg.data = GPIO.input(L)
+    rightmsg.data = GPIO.input(R)
     self.leftPub.publish(leftmsg)
     self.rightPub.publish(rightmsg)
     
@@ -58,7 +58,6 @@ def main(args = None):
   rclpy.init(args = args)
   print("program start")
   docker = Docker()
-  print("docker assigned")
   docker.publisher()
 
   docker.destroy_node()
