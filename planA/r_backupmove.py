@@ -356,6 +356,17 @@ class Auto_Mover(Node):
         move_forward(69)
         turn_180()
 
+def table_num(client, userdata, message):
+    print("received message: " ,str(message.payload.decode("utf-8")))
+    global table
+    table = int(message.payload.decode("utf-8"))
+    print(table)
+
+def on_connect(client, userdata, flags, rc):
+    # This will be called once the client connects
+    print(f"Connected with result code {rc}")
+    # Subscribe here!
+    client.subscribe("TableNo") 
 
 def main(args = None):
 
