@@ -3,6 +3,7 @@
 A modular MicroPython-based robotic platform built to simulate indoor autonomous navigation using MQTT-based communication, ultrasonic and IR sensor feedback, and decentralized control logic. Designed for adaptability in dynamic environments with support for occupancy detection and real-time coordination.
 
 Credits: Dharmapuri Krishna Harshitha, Lee Jae Geun, Jason Jonathan Tejaputra, Devinaa Kumeresh Khanna
+Original Repo: https://github.com/jasonjt12/r2auto_nav
 
 ---
 
