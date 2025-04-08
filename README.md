@@ -1,10 +1,10 @@
-# 🤖 Autonomous Navigation Robot
+# Autonomous Navigation Robot Using MicroPython and MQTT
 
 A modular MicroPython-based robotic platform built to simulate indoor autonomous navigation using MQTT-based communication, ultrasonic and IR sensor feedback, and decentralized control logic. Designed for adaptability in dynamic environments with support for occupancy detection and real-time coordination.
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 
@@ -34,29 +34,29 @@ A modular MicroPython-based robotic platform built to simulate indoor autonomous
 
 ---
 
-## 🚀 Features
+## Features
 
-### 🤖 Autonomous Navigation
+### Autonomous Navigation
 - IR-guided movement via `IRLineNav.py`
 - Obstacle detection and avoidance using ultrasonic sensors (`hcsr04.py`)
 - Real-time room-based pathfinding in `r2auto_nav.py`
 
-### 🌐 MQTT-Based Control System
+### MQTT-Based Control System
 - Full MQTT Publisher/Subscriber framework (`compilepubsub.py`, `subscriber.py`)
 - Multi-node communication across devices and environments
 - Laptop and ESP32-compatible setup
 
-### 🧠 Occupancy-Aware Logic
+### Occupancy-Aware Logic
 - Scans and adjusts to room occupancy (`r2occupancy.py`, `r2occupancy2.py`)
 - Supports re-routing and fallback behavior via `r_backupmove.py`
 
-### 🧩 Modular & Testable
+### Modular & Testable
 - Decoupled architecture: sensor, motor control, and communication layers
 - Test utilities (`display_test.py`) and legacy support (`oldcompilepubsub.py`)
 
 ---
 
-## 🧠 System Overview
+## System Overview
 
 The system is designed around three core layers:
 1. **Sensor Layer**
@@ -75,7 +75,7 @@ The system is designed around three core layers:
 
 ---
 
-## 🛠️ Requirements
+##  Requirements
 
 ### Hardware
 - ESP32 board
@@ -92,7 +92,7 @@ The system is designed around three core layers:
 
 ---
 
-## 🧪 Getting Started
+## Getting Started
 
 1. **Flash MicroPython** on your ESP32 board.
 2. Upload the scripts using Thonny or ampy.
@@ -104,7 +104,7 @@ The system is designed around three core layers:
 
 ---
 
-## 🧭 Example MQTT Topics
+## Example MQTT Topics
 
 | Topic                  | Purpose                                |
 |------------------------|----------------------------------------|
@@ -116,7 +116,7 @@ The system is designed around three core layers:
 
 ---
 
-## 📈 Potential Applications
+## Potential Applications
 
 - Smart Indoor Mobility Systems
 - Autonomous Delivery Robots
