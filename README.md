@@ -6,7 +6,8 @@ A modular MicroPython-based robotic platform built to simulate indoor autonomous
 
 ## 📦 Project Structure
 
-.
+```
+
 ├── boot.py                # System startup configuration
 ├── compilepubsub.py       # MQTT handler (main orchestrator)
 ├── oldcompilepubsub.py    # Legacy pubsub script for reference
@@ -28,6 +29,8 @@ A modular MicroPython-based robotic platform built to simulate indoor autonomous
 ├── r2scanner.py           # Environmental scanner (room state)
 ├── setup.py               # Deployment setup script
 ├── users.txt              # User mapping or device IDs
+
+```
 
 ---
 
